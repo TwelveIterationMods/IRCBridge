@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ircbridge",
+  "name": "IRCBridge",
+  "description": "Lightweight IRC bridge for Minecraft servers.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["BlayTheNinth"],
+  "credits": "BlayTheNinth",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
