@@ -1,6 +1,5 @@
 package net.blay09.mods.ircbridge.handler;
 
-import joptsimple.internal.Strings;
 import net.blay09.mods.ircbridge.IRCBridge;
 import net.blay09.mods.ircbridge.config.MinecraftToIRC;
 import net.minecraft.command.server.CommandBroadcast;
@@ -14,6 +13,7 @@ import net.minecraftforge.event.entity.player.AchievementEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import org.apache.commons.lang3.StringUtils;
 
 public class MCEventHandler {
 
@@ -41,9 +41,9 @@ public class MCEventHandler {
             return;
         }
         if(event.command instanceof CommandBroadcast) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Broadcast, Strings.join(event.parameters, " "), event.sender.getDisplayName().getUnformattedText()));
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Broadcast, StringUtils.join(event.parameters, ' '), event.sender.getDisplayName().getUnformattedText()));
         } else if(event.command instanceof CommandEmote) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Emote, Strings.join(event.parameters, " "), event.sender.getDisplayName().getUnformattedText()));
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Emote, StringUtils.join(event.parameters, ' '), event.sender.getDisplayName().getUnformattedText()));
         }
     }
 

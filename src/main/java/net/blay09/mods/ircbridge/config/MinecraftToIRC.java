@@ -1,14 +1,11 @@
 package net.blay09.mods.ircbridge.config;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.blay09.mods.ircbridge.IRCFormatting;
 import net.minecraftforge.common.config.Configuration;
 
 import java.util.EnumMap;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,16 +28,16 @@ public class MinecraftToIRC {
     private final EnumMap<Type, String> map = Maps.newEnumMap(Type.class);
 
     public MinecraftToIRC() {
-        map.put(Type.Achievement, "%u has just earned the achievement §a[%m]");
+        map.put(Type.Achievement, "%u has just earned the achievement \u00a7a[%m]");
         map.put(Type.Broadcast, "[%u] %m");
         map.put(Type.Chat, "<%u> %m");
         map.put(Type.Death, "%m");
         map.put(Type.Emote, "* %u %m");
-        map.put(Type.Join, "§e%u joined the game");
-        map.put(Type.JoinRenamed, "§e%u (formerly known as %m) joined the game");
-        map.put(Type.Leave, "§e%u left the game");
-        map.put(Type.PlayerList, "%m players online: %u");
-        map.put(Type.NoPlayers, "No players online.");
+        map.put(Type.Join, "\u00a7e%u joined the game");
+        map.put(Type.JoinRenamed, "\u00a7e%u (formerly known as %m) joined the game");
+        map.put(Type.Leave, "\u00a7e%u left the game");
+        map.put(Type.PlayerList, "\u00a73%m players online\u00a7r: %u");
+        map.put(Type.NoPlayers, "\u00a73No players online.");
     }
 
     public String format(Type type, String message, String user) {

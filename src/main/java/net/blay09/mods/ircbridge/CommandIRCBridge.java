@@ -1,6 +1,5 @@
 package net.blay09.mods.ircbridge;
 
-import joptsimple.internal.Strings;
 import net.blay09.javairc.snapshot.ChannelSnapshot;
 import net.blay09.javairc.snapshot.UserSnapshot;
 import net.blay09.mods.ircbridge.config.ChannelEntry;

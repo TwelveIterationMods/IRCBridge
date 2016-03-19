@@ -1,7 +1,6 @@
 package net.blay09.mods.ircbridge.handler;
 
 import com.google.common.collect.Lists;
-import joptsimple.internal.Strings;
 import net.blay09.javairc.IRCConnection;
 import net.blay09.javairc.IRCUser;
 import net.blay09.javairc.snapshot.UserSnapshot;
@@ -13,6 +12,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +47,7 @@ public class IRCCommandHandler {
                 return;
             }
         }
-        commandManager.executeCommand(sender, command.mcCommand + " " + Strings.join(args, " "));
+        commandManager.executeCommand(sender, command.mcCommand + " " + StringUtils.join(args, ' '));
     }
 
 
@@ -60,7 +60,7 @@ public class IRCCommandHandler {
             String loginName = userSnapshot != null ? userSnapshot.getLoginName() : null;
             if(loginName != null && !loginName.isEmpty()) {
                 if(ConfigHandler.getTrustedUsers().contains(loginName)) {
-                    qCommand.commandManager.executeCommand(qCommand.sender, qCommand.sender.getCommand() + " " + Strings.join(qCommand.args, " "));
+                    qCommand.commandManager.executeCommand(qCommand.sender, qCommand.sender.getCommand() + " " + StringUtils.join(qCommand.args, ' '));
                     it.remove();
                     continue;
                 }
