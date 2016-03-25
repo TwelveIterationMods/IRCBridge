@@ -32,15 +32,15 @@ public class IRCToMinecraft {
     private final EnumMap<Type, String> map = Maps.newEnumMap(Type.class);
 
     public IRCToMinecraft() {
-        map.put(Type.Chat, ChatFormatting.GRAY + "> %u: %m");
-        map.put(Type.Emote, ChatFormatting.GRAY + "> %u %m");
-        map.put(Type.Join, "> %u has joined %c");
-        map.put(Type.Leave, "> %u has left %c");
-        map.put(Type.NickChange, ChatFormatting.GRAY + "> %u is now known as %m");
-        map.put(Type.Topic, "> %m");
-        map.put(Type.Quit, "> %u has quit (%m)");
-        map.put(Type.UserList, "> [%c] %m users online: %u");
-        map.put(Type.NoUsers, "> [%c] No users online.");
+        map.put(Type.Chat, ChatFormatting.GRAY + "%u: %m");
+        map.put(Type.Emote, ChatFormatting.GRAY + "%u %m");
+        map.put(Type.Join, ChatFormatting.YELLOW + "%u has joined %c");
+        map.put(Type.Leave, ChatFormatting.YELLOW + "%u has left %c");
+        map.put(Type.NickChange, ChatFormatting.GRAY + "%u is now known as %m");
+        map.put(Type.Topic, ChatFormatting.YELLOW + "%m");
+        map.put(Type.Quit, ChatFormatting.YELLOW + "%u has quit IRC (%m)");
+        map.put(Type.UserList, "[%c] %m users online: %u");
+        map.put(Type.NoUsers, "[%c] No users online.");
     }
 
     public String format(Type type, String message, String channel, String user) {
