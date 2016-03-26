@@ -37,13 +37,13 @@ public class MCEventHandler {
 
     @SubscribeEvent
     public void onCommand(CommandEvent event) {
-        if(!event.command.checkPermission(FMLCommonHandler.instance().getMinecraftServerInstance(), event.sender)) {
+        if(!event.getCommand().checkPermission(FMLCommonHandler.instance().getMinecraftServerInstance(), event.getSender())) {
             return;
         }
-        if(event.command instanceof CommandBroadcast) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Broadcast, StringUtils.join(event.parameters, ' '), event.sender.getDisplayName().getUnformattedText()));
-        } else if(event.command instanceof CommandEmote) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Emote, StringUtils.join(event.parameters, ' '), event.sender.getDisplayName().getUnformattedText()));
+        if(event.getCommand() instanceof CommandBroadcast) {
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Broadcast, StringUtils.join(event.getParameters(), ' '), event.getSender().getDisplayName().getUnformattedText()));
+        } else if(event.getCommand() instanceof CommandEmote) {
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Emote, StringUtils.join(event.getParameters(), ' '), event.getSender().getDisplayName().getUnformattedText()));
         }
     }
 
@@ -54,23 +54,23 @@ public class MCEventHandler {
 
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event) {
-        if(event.entityLiving instanceof EntityPlayer) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Death, event.source.getDeathMessage(event.entityLiving).getUnformattedText(), ((EntityPlayer) event.entityLiving).getDisplayNameString()));
+        if(event.getEntityLiving() instanceof EntityPlayer) {
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Death, event.getSource().getDeathMessage(event.getEntityLiving()).getUnformattedText(), ((EntityPlayer) event.getEntityLiving()).getDisplayNameString()));
         }
     }
 
     @SubscribeEvent
     public void onAchievement(AchievementEvent event) {
-        EntityPlayerMP entityPlayer = (EntityPlayerMP) event.entityPlayer;
-        if(entityPlayer.getStatFile().hasAchievementUnlocked(event.achievement)) {
+        EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntityPlayer();
+        if(entityPlayer.getStatFile().hasAchievementUnlocked(event.getAchievement())) {
             // This is necessary because the Achievement event fires even if an achievement is already unlocked.
             return;
         }
-        if(!entityPlayer.getStatFile().canUnlockAchievement(event.achievement)) {
+        if(!entityPlayer.getStatFile().canUnlockAchievement(event.getAchievement())) {
             // This is necessary because the Achievement event fires even if an achievement can not be unlocked yet.
             return;
         }
-        bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Achievement, event.achievement.getStatName().getUnformattedText(), event.entityPlayer.getDisplayNameString()));
+        bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Achievement, event.getAchievement().getStatName().getUnformattedText(), event.getEntityPlayer().getDisplayNameString()));
     }
 
 }
