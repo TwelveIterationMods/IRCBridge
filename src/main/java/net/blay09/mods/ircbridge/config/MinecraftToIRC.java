@@ -1,8 +1,8 @@
 package net.blay09.mods.ircbridge.config;
 
 import com.google.common.collect.Maps;
-import com.mojang.realmsclient.gui.ChatFormatting;
 import net.blay09.mods.ircbridge.IRCFormatting;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
 
 import java.util.EnumMap;
@@ -63,23 +63,25 @@ public class MinecraftToIRC {
         StringBuffer sb = new StringBuffer();
         while(matcher.find()) {
             if(!stripFormat) {
-                ChatFormatting formatting = ChatFormatting.getByChar(matcher.group(1).charAt(0));
-                if(formatting.isColor()) {
-                    matcher.appendReplacement(sb, IRCFormatting.COLOR.getCharString() + getColorCodeForIRC(formatting));
-                } else {
-                    switch (formatting) {
-                        case BOLD:
-                            matcher.appendReplacement(sb, IRCFormatting.BOLD.getCharString());
-                            break;
-                        case UNDERLINE:
-                            matcher.appendReplacement(sb, IRCFormatting.UNDERLINE.getCharString());
-                            break;
-                        case OBFUSCATED:
-                            matcher.appendReplacement(sb, IRCFormatting.SECRET.getCharString());
-                            break;
-                        case RESET:
-                            matcher.appendReplacement(sb, IRCFormatting.RESET.getCharString());
-                            break;
+                TextFormatting formatting = getTextFormattingByChar(matcher.group(1).charAt(0));
+                if(formatting != null) {
+                    if (formatting.isColor()) {
+                        matcher.appendReplacement(sb, IRCFormatting.COLOR.getCharString() + getColorCodeForIRC(formatting));
+                    } else {
+                        switch (formatting) {
+                            case BOLD:
+                                matcher.appendReplacement(sb, IRCFormatting.BOLD.getCharString());
+                                break;
+                            case UNDERLINE:
+                                matcher.appendReplacement(sb, IRCFormatting.UNDERLINE.getCharString());
+                                break;
+                            case OBFUSCATED:
+                                matcher.appendReplacement(sb, IRCFormatting.SECRET.getCharString());
+                                break;
+                            case RESET:
+                                matcher.appendReplacement(sb, IRCFormatting.RESET.getCharString());
+                                break;
+                        }
                     }
                 }
             } else {
@@ -90,7 +92,16 @@ public class MinecraftToIRC {
         return sb.toString();
     }
 
-    private static int getColorCodeForIRC(ChatFormatting formatting) {
+    private static TextFormatting getTextFormattingByChar(char c) {
+        for(TextFormatting formatting : TextFormatting.values()) {
+            if(formatting.toString().equals("\u00a7" + c)) {
+                return formatting;
+            }
+        }
+        return null;
+    }
+
+    private static int getColorCodeForIRC(TextFormatting formatting) {
         switch(formatting) {
             case BLACK: return 1; // Black
             case DARK_BLUE: return 2; // Dark Blue
