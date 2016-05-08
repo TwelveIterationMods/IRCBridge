@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    shade "net.blay09:javairc:0.0.12"
+    shade "net.blay09:javairc:0.0.13"
 }
 
 processResources{

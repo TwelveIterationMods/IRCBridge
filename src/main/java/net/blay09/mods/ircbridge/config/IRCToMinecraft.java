@@ -31,8 +31,8 @@ public class IRCToMinecraft {
     private final EnumMap<Type, String> map = Maps.newEnumMap(Type.class);
 
     public IRCToMinecraft() {
-        map.put(Type.Chat, TextFormatting.GRAY + "%u: %m");
-        map.put(Type.Emote, TextFormatting.GRAY + "%u %m");
+        map.put(Type.Chat, TextFormatting.GRAY + "\u300b%u: %m");
+        map.put(Type.Emote, TextFormatting.GRAY + "\u300b%u %m");
         map.put(Type.Join, TextFormatting.YELLOW + "%u has joined %c");
         map.put(Type.Leave, TextFormatting.YELLOW + "%u has left %c");
         map.put(Type.NickChange, TextFormatting.GRAY + "%u is now known as %m");
