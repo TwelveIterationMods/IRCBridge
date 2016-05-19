@@ -69,7 +69,7 @@ public class IRCCommandHandler {
             qCommand.ticksExisted++;
             if(qCommand.ticksExisted > COMMAND_TIMEOUT) {
                 TextComponentTranslation chatComponent = new TextComponentTranslation("commands.generic.permission");
-                chatComponent.getChatStyle().setColor(TextFormatting.RED);
+                chatComponent.getStyle().setColor(TextFormatting.RED);
                 qCommand.sender.addChatMessage(chatComponent);
                 it.remove();
             }

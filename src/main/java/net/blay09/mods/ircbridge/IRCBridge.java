@@ -127,4 +127,8 @@ public class IRCBridge {
         UserListOpsEntry entry = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getOppedPlayers().getEntry(entityPlayer.getGameProfile());
         return entry != null && entry.getPermissionLevel() > 0;
     }
+
+    public BridgeSettings getBridgeSettings() {
+        return bridgeSettings;
+    }
 }

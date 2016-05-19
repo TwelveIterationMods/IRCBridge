@@ -45,27 +45,37 @@ public class IRCEventHandler extends IRCAdapter {
 
     @Override
     public void onUserJoin(IRCConnection connection, IRCMessage message, IRCUser user, String channel) {
-        bridge.sendToMC(format.format(IRCToMinecraft.Type.Join, "", channel, user.getNick()));
+        if(bridge.getBridgeSettings().isIrcJoinLeave()) {
+            bridge.sendToMC(format.format(IRCToMinecraft.Type.Join, "", channel, user.getNick()));
+        }
     }
 
     @Override
     public void onUserPart(IRCConnection connection, IRCMessage message, IRCUser user, String channel, String quitMessage) {
-        bridge.sendToMC(format.format(IRCToMinecraft.Type.Leave, "", channel, user.getNick()));
+        if(bridge.getBridgeSettings().isIrcJoinLeave()) {
+            bridge.sendToMC(format.format(IRCToMinecraft.Type.Leave, "", channel, user.getNick()));
+        }
     }
 
     @Override
     public void onUserQuit(IRCConnection connection, IRCMessage message, IRCUser user, String quitMessage) {
-        bridge.sendToMC(format.format(IRCToMinecraft.Type.Quit, "", "", user.getNick()));
+        if(bridge.getBridgeSettings().isIrcJoinLeave()) {
+            bridge.sendToMC(format.format(IRCToMinecraft.Type.Quit, "", "", user.getNick()));
+        }
     }
 
     @Override
     public void onUserNickChange(IRCConnection connection, IRCMessage message, IRCUser user, String nick) {
-        bridge.sendToMC(format.format(IRCToMinecraft.Type.NickChange, user.getNick(), "", nick));
+        if(bridge.getBridgeSettings().isIrcNickChange()) {
+            bridge.sendToMC(format.format(IRCToMinecraft.Type.NickChange, user.getNick(), "", nick));
+        }
     }
 
     @Override
     public void onChannelTopic(IRCConnection connection, IRCMessage message, String channel, String topic) {
-        bridge.sendToMC(format.format(IRCToMinecraft.Type.Topic, topic, channel, ""));
+        if(bridge.getBridgeSettings().isIrcTopic()) {
+            bridge.sendToMC(format.format(IRCToMinecraft.Type.Topic, topic, channel, ""));
+        }
     }
 
     @Override

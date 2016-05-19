@@ -27,12 +27,16 @@ public class MCEventHandler {
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Join, "", event.player.getDisplayNameString()));
+        if(bridge.getBridgeSettings().isMinecraftJoinLeave()) {
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Join, "", event.player.getDisplayNameString()));
+        }
     }
 
     @SubscribeEvent
     public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Leave, "", event.player.getDisplayNameString()));
+        if(bridge.getBridgeSettings().isMinecraftJoinLeave()) {
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Leave, "", event.player.getDisplayNameString()));
+        }
     }
 
     @SubscribeEvent
@@ -41,7 +45,9 @@ public class MCEventHandler {
             return;
         }
         if(event.getCommand() instanceof CommandBroadcast) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Broadcast, StringUtils.join(event.getParameters(), ' '), event.getSender().getDisplayName().getUnformattedText()));
+            if(bridge.getBridgeSettings().isMinecraftBroadcast()) {
+                bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Broadcast, StringUtils.join(event.getParameters(), ' '), event.getSender().getDisplayName().getUnformattedText()));
+            }
         } else if(event.getCommand() instanceof CommandEmote) {
             bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Emote, StringUtils.join(event.getParameters(), ' '), event.getSender().getDisplayName().getUnformattedText()));
         }
@@ -54,23 +60,27 @@ public class MCEventHandler {
 
     @SubscribeEvent
     public void onLivingDeath(LivingDeathEvent event) {
-        if(event.getEntityLiving() instanceof EntityPlayer) {
-            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Death, event.getSource().getDeathMessage(event.getEntityLiving()).getUnformattedText(), ((EntityPlayer) event.getEntityLiving()).getDisplayNameString()));
+        if(bridge.getBridgeSettings().isMinecraftDeath()) {
+            if (event.getEntityLiving() instanceof EntityPlayer) {
+                bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Death, event.getSource().getDeathMessage(event.getEntityLiving()).getUnformattedText(), ((EntityPlayer) event.getEntityLiving()).getDisplayNameString()));
+            }
         }
     }
 
     @SubscribeEvent
     public void onAchievement(AchievementEvent event) {
-        EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntityPlayer();
-        if(entityPlayer.getStatFile().hasAchievementUnlocked(event.getAchievement())) {
-            // This is necessary because the Achievement event fires even if an achievement is already unlocked.
-            return;
+        if(bridge.getBridgeSettings().isMinecraftAchievement()) {
+            EntityPlayerMP entityPlayer = (EntityPlayerMP) event.getEntityPlayer();
+            if (entityPlayer.getStatFile().hasAchievementUnlocked(event.getAchievement())) {
+                // This is necessary because the Achievement event fires even if an achievement is already unlocked.
+                return;
+            }
+            if (!entityPlayer.getStatFile().canUnlockAchievement(event.getAchievement())) {
+                // This is necessary because the Achievement event fires even if an achievement can not be unlocked yet.
+                return;
+            }
+            bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Achievement, event.getAchievement().getStatName().getUnformattedText(), event.getEntityPlayer().getDisplayNameString()));
         }
-        if(!entityPlayer.getStatFile().canUnlockAchievement(event.getAchievement())) {
-            // This is necessary because the Achievement event fires even if an achievement can not be unlocked yet.
-            return;
-        }
-        bridge.sendToIRC(mcToIRC.format(MinecraftToIRC.Type.Achievement, event.getAchievement().getStatName().getUnformattedText(), event.getEntityPlayer().getDisplayNameString()));
     }
 
 }
