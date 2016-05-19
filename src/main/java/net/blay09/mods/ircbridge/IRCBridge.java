@@ -20,7 +20,8 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = IRCBridge.MOD_ID, name = "IRC Bridge", serverSideOnly = true, acceptableRemoteVersions = "*")
+@Mod(modid = IRCBridge.MOD_ID, name = "IRC Bridge", serverSideOnly = true, acceptableRemoteVersions = "*",
+updateJSON = "http://balyware.com/new/forge_update.php?modid=ircbridge")
 public class IRCBridge {
 
     public static final Logger logger = LogManager.getLogger();
