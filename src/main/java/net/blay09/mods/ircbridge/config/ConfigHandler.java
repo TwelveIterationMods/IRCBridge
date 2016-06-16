@@ -59,7 +59,7 @@ public class ConfigHandler {
         config = new Configuration(configFile);
         config.load();
 
-        preventUserPing = config.getBoolean("Prevent User Ping", "general", true, "Should an invisible character be inserted into names coming from Minecraft to prevent pinging IRC users with the same name?");
+        preventUserPing = config.getBoolean("Prevent User Ping (experimental)", "general", false, "Should an invisible character be inserted into names coming from Minecraft to prevent pinging IRC users with the same name? This only works correctly on certain IRC clients and thus is disabled by default.");
         convertColors = config.getBoolean("Convert Formatting", "general", true, "Should formatting be converted between Minecraft <-> IRC?");
 
         String[] trustedUserList = config.getStringList("Trusted Users", "general", new String[0], "A list of NickServ authenticated names that are able to run commands with the requireTrusted flag set to true.");
