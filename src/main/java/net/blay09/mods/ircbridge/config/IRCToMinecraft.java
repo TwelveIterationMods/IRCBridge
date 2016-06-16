@@ -43,6 +43,7 @@ public class IRCToMinecraft {
     }
 
     public String format(Type type, String message, String channel, String user) {
+        message = message.replace('\u00a7', '$'); // We need to do this to prevent client crashes and formatting issues, since § is a special character in Minecraft
         return map.get(type).replace("%m", message).replace("%u", user).replace("%c", channel);
     }
 

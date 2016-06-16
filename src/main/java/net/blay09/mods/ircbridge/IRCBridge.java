@@ -79,7 +79,6 @@ public class IRCBridge {
     }
 
     public void sendToMC(String message) {
-        message = message.replace('\u00a7', '$'); // We need to do this to prevent client crashes and formatting issues, since § is a special character in Minecraft
         message = IRCToMinecraft.convertFormatting(message, !ConfigHandler.isConvertColors());
         FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().sendChatMsg(ForgeHooks.newChatWithLinks(message));
     }
